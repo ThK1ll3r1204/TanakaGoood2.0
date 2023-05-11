@@ -26,7 +26,6 @@ public class EnemiesLife : MonoBehaviour
     {
         if (life <= 0)
         {
-            pStats.enemyKilled = true;
             Destroy(this.gameObject);
         }
     }

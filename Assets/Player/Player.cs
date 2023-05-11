@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    [SerializeField] float _shootTime;
+    [SerializeField] float _shootMaxTime;
     [SerializeField] float _speed;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] GameObject _playerBullet;
 
     void Start()
     {
@@ -18,9 +22,22 @@ public class Player : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
 
-        Vector2 direction= new Vector2(horizontal, vertical);
+        Vector2 _move = new Vector2(horizontal * _speed, vertical * _speed);
 
-        _rb.velocity = direction * _speed;
-
+        _rb.velocity = _move;
+        _shootTime += Time.deltaTime;
+        if (Input.GetKey(KeyCode.Space))
+        {
+            
+            if (_shootTime > _shootMaxTime)
+            {
+                Vector3 direction = _move;
+                GameObject bullet = Instantiate(_playerBullet, transform.position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody2D>().velocity = direction.normalized * 30f;
+                _shootTime = 0;
+            }
+        }
+        
+        
     }
 }

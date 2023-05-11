@@ -13,6 +13,12 @@ public class GenericProyectil : MonoBehaviour
         pStats = GameObject.Find("Player").GetComponent<PlayerStats>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
+
+    private void Update()
+    {
+        Destroy(gameObject, 2f);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
