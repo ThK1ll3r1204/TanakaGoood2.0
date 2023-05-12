@@ -10,7 +10,7 @@ public class GenericProyectil : MonoBehaviour
 
     private void Awake()
     {
-        pStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        pStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +19,8 @@ public class GenericProyectil : MonoBehaviour
         {
             MakeDamage();
         }
-        Destroy(this.gameObject);
+        if (!collision.CompareTag("Enemy"))
+            Destroy(this.gameObject);
     }
 
     public void MakeDamage()
