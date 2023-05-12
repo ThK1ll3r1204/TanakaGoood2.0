@@ -22,21 +22,35 @@ public class AttackAndMovement : MonoBehaviour
 
     void Update()
     {
-        if (detect.playerDetected && detect.distanceToPlayer > 5f)
-        {
-            transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
-        }
-        else if (detect.distanceToPlayer < 5f)
-        {
-
-        }
+        Movement();
 
         if (detect.playerDetected && _bCooldowntimer <= 0)
         {
             ShootThePlayer();
-        } 
+        }
 
     }
+
+    private void Movement()
+    {
+        if (detect.playerDetected && detect.distanceToPlayer > 7f)
+        {
+            this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            Vector3 direction = player.transform.position - transform.position;
+            this.GetComponent<Rigidbody2D>().velocity = direction.normalized * moveSpeed;
+        }
+        else if (detect.playerDetected && detect.distanceToPlayer < 5f)
+        {
+            this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            Vector3 direction = transform.position - player.transform.position;
+            this.GetComponent<Rigidbody2D>().velocity = direction.normalized * moveSpeed * 1.5f;
+        }
+        else
+        {
+            this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+    }
+
     private void FixedUpdate()
     {
         //Cooldown del disparo
